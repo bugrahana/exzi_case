@@ -1,9 +1,10 @@
 variable "HUAWEICLOUD_ACCESS_KEY" {}
 variable "HUAWEICLOUD_SECRET_KEY" {}
+
 provider "huaweicloud" {
   region     = "tr-west-1"
-  access_key = "${var.HUAWEICLOUD_ACCESS_KEY}"
-  secret_key = "${var.HUAWEICLOUD_SECRET_KEY}"
+  access_key = var.HUAWEICLOUD_ACCESS_KEY
+  secret_key = var.HUAWEICLOUD_SECRET_KEY
 }
 
 resource "huaweicloud_vpc" "vpc" { # create vpc
