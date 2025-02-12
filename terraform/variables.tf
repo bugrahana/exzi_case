@@ -1,23 +1,34 @@
-variable "vpc_name" {
-  default = "terraform_bugra_vpc"
+variable "huaweicloud_access_key" {
+  description="huawei cloud accunt access key"
 }
-
-variable "vpc_cidr" {
-  default = "192.168.0.0/16"
-}
-
-variable "subnet_name" {
-  default = "subnet_bugra"
-}
-
-variable "subnet_cidr" {
-  default = "192.168.0.0/24"
-}
-
-variable "subnet_gateway_ip" {
-  default = "192.168.0.1"
+variable "huaweicloud_secret_key" {
+  description="huawei cloud accunt secret key"
 }
 
 variable "region" {
-  default = "cn-east-3"
+  description="region will be worked on"
+  default="tr-west-1"
+}
+
+variable "vpc_name" {
+  description="vpc name"
+  default="bugra_vpc"
+}
+
+variable "vpc_cidr" {
+  description="vpc cidr value"
+  default="192.168.0.0/16"
+}
+
+varialbe "subnet_name" {
+  description="subnet name"
+  default="bugra_subnet"
+}
+variable "subnet_cidr" {
+  description="subnet cidr"
+  default="192.168.0.0/24"
+} 
+variable "subnet_gw" {
+  description="subnet gateway"
+  default="192.168.0.1"
 }
