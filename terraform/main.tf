@@ -4,13 +4,13 @@ provider "huaweicloud" {
   secret_key = "IzbXnSrA6eC4YYyxsPqVnTd98WXglKulv8xEz1Ma"
 }
 
-resource "huaweicloud_vpc" "myvpc" { # create vpc
+resource "huaweicloud_vpc" "vpc" { # create vpc
   name = "terraform_bugra_vpc"
   cidr = "192.168.0.0/16"
 }
 
 
-resource "huaweicloud_vpc_subnet" "mysubnet" { #create subnet
+resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
   name       = "subnet_bugra"
   cidr       = "192.168.0.0/24"
   gateway_ip = "192.168.0.1"
@@ -18,13 +18,9 @@ resource "huaweicloud_vpc_subnet" "mysubnet" { #create subnet
   //dns is required for cce node installing
   primary_dns   = "100.125.1.250"
   secondary_dns = "100.125.21.250"
-  vpc_id        = huaweicloud_vpc.myvpc.id
-  depends_on = [huaweicloud_vpc.myvpc]
+  vpc_id        = huaweicloud_vpc.vpc.id
+  depends_on = [huaweicloud_vpc.vpc]
 }
 
-
-
-
-data "huaweicloud_availability_zones" "myaz" {}
 
 
