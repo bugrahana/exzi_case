@@ -34,6 +34,7 @@ jobs:
         HUAWEICLOUD_SECRET_KEY: ${{ secrets.HUAWEICLOUD_SECRET_KEY }}
       run: 
         terraform plan -var "huaweicloud_access_key=$HUAWEICLOUD_ACCESS_KEY" -var "huaweicloud_secret_key=$HUAWEICLOUD_SECRET_KEY"
+      working-directory: terraform
 
     - name: Apply Terraform Changes
       env:
@@ -41,4 +42,5 @@ jobs:
         HUAWEICLOUD_SECRET_KEY: ${{ secrets.HUAWEICLOUD_SECRET_KEY }}
       run: 
         terraform apply -auto-approve -var "huaweicloud_access_key=$HUAWEICLOUD_ACCESS_KEY" -var "huaweicloud_secret_key=$HUAWEICLOUD_SECRET_KEY"
+      working-directory: terraform
 
