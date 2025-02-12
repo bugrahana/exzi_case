@@ -1,7 +1,5 @@
 provider "huaweicloud" {
   region     = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
 }
 
 resource "huaweicloud_vpc" "myvpc" { # create vpc

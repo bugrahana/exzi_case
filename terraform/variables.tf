@@ -1,13 +1,3 @@
-variable "access_key" {
-  default = "FTWSWXVOTA58S9MCRCM7"
-}
-
-variable "secret_key" {
-  default = "qZIgZWCu1KfndFcSf9fM9PuhlXxS1Ip8kVKh9JRK"
-}
-
-
-
 variable "vpc_name" {
   default = "terraform_bugra_vpc"
 }
