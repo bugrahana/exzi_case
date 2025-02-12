@@ -1,5 +1,5 @@
 provider "huaweicloud" {
-  region     = "cn-east-3"
+  region     = "tr-west-1"
   access_key = "N7PK8IMNAV7K6YCMGRXU"
   secret_key = "IzbXnSrA6eC4YYyxsPqVnTd98WXglKulv8xEz1Ma"
 }
