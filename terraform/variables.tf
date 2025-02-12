@@ -20,7 +20,7 @@ variable "vpc_cidr" {
   default="192.168.0.0/16"
 }
 
-varialbe "subnet_name" {
+variable "subnet_name" {
   description="subnet name"
   default="bugra_subnet"
 }

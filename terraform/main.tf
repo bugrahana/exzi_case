@@ -1,23 +1,20 @@
-variable "huaweicloud_access_key" {}
-variable "huaweicloud_secret_key" {}
+
 
 provider "huaweicloud" {
-  region     = "tr-west-1"
+  region     = var.region
   access_key = var.huaweicloud_access_key
   secret_key = var.huaweicloud_secret_key
 }
 
 resource "huaweicloud_vpc" "vpc" { # create vpc
-  name = "terraform_bugra_vpc"
-  cidr = "192.168.0.0/16"
+  name = var.vpc_name
+  cidr = var.vpc_cidr
 }
 
-
-
 resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
-  name       = "subnet_bugra"
-  cidr       = "192.168.0.0/24"
-  gateway_ip = "192.168.0.1"
+  name       = var.subnet_name
+  cidr       = var.subnet_cidr
+  gateway_ip = var.subnet.gw
 
   //dns is required for cce node installing
   primary_dns   = "100.125.1.250"
