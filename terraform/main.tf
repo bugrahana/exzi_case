@@ -12,6 +12,7 @@ resource "huaweicloud_vpc" "vpc" { # create vpc
 }
 
 
+
 resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
   name       = "subnet_bugra"
   cidr       = "192.168.0.0/24"
