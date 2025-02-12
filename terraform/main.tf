@@ -14,7 +14,7 @@ resource "huaweicloud_vpc" "vpc" { # create vpc
 resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
   name       = var.subnet_name
   cidr       = var.subnet_cidr
-  gateway_ip = var.subnet.gw
+  gateway_ip = var.subnet_gw
 
   //dns is required for cce node installing
   primary_dns   = "100.125.1.250"
