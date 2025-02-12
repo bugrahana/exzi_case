@@ -1,7 +1,7 @@
 provider "huaweicloud" {
   region     = "tr-west-1"
-  access_key = "N7PK8IMNAV7K6YCMGRXU"
-  secret_key = "IzbXnSrA6eC4YYyxsPqVnTd98WXglKulv8xEz1Ma"
+  access_key = var.HUAWEICLOUD_ACCESS_KEY
+  secret_key = var.HUAWEICLOUD_SECRET_KEY
 }
 
 resource "huaweicloud_vpc" "vpc" { # create vpc
