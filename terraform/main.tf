@@ -58,7 +58,7 @@ resource "huaweicloud_cce_node" "node" {
   count = var.node_count
   cluster_id        = huaweicloud_cce_cluster.mycluster.id
   name              = "node-${count.index}" # optional
-  flavor_id         = "t6.large.2 "
+  flavor_id         = "t6.large.2"
   os                = "CentOS 7.6"
   availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
   password          = "Bugrahan@exzi1234"
