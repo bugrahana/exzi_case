@@ -22,4 +22,3 @@ resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
   vpc_id        = huaweicloud_vpc.vpc.id
   depends_on = [huaweicloud_vpc.vpc]
 }
-
