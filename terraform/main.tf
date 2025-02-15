@@ -127,6 +127,10 @@ output "NodeIps" {
 output "kubeconf" {
   value = huaweicloud_cce_cluster.mycluster.kube_config_raw
 }
+resource "local_file" "kubeconffile" {
+    content  = huaweicloud_cce_cluster.mycluster.kube_config_raw
+    filename = "kubeconfig"
+}
 
 
 resource "huaweicloud_rds_instance" "instance" {

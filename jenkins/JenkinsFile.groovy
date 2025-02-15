@@ -25,5 +25,13 @@ pipeline {
                 }
             }
         }
+
+        stage('kubectl get pods') {
+            steps {
+                sh '''
+                    kubectl --kubeconfig ./kubeconf get pods -A
+                '''
+            }
+        }
     }
 }
