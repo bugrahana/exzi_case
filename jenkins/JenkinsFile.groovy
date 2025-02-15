@@ -9,7 +9,7 @@ pipeline {
         }
         
         stage('terraform init') {
-                sh 'cd terraform; terraform init'
+                sh 'cd terraform; terraform init -no-color'
             }
         }
         
