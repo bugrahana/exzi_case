@@ -39,8 +39,8 @@ resource "huaweicloud_vpc_eip" "myeip" { #create eip
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
   name                   = var.cce_cluster_name
-  #cluster_type          = "VirtualMachine"
-  cluster_version        = "v1.25"
+  cluster_type          = "VirtualMachine"
+  cluster_version        = "v1.28"
   flavor_id              = "cce.s1.small"
   vpc_id                 = huaweicloud_vpc.myvpc.id
   subnet_id              = huaweicloud_vpc_subnet.mysubnet.id
