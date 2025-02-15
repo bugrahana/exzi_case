@@ -15,4 +15,4 @@ WORKDIR /root/
 # Copy the compiled binary from the build stage
 COPY --from=builder /app/myapp .
 
-CMD ["./myapp"]
+CMD ["/root/myapp"]
