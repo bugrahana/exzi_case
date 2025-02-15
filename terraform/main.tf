@@ -125,7 +125,7 @@ resource "huaweicloud_rds_instance" "instance" {
   vpc_id            = huaweicloud_vpc.myvpc.id
   subnet_id         = huaweicloud_vpc_subnet.mysubnet.id
   security_group_id = huaweicloud_networking_secgroup.secgroup.id
-  availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
+  availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
 
   db {
     type     = "MySQL"
