@@ -122,9 +122,9 @@ output "kubeconf" {
 resource "huaweicloud_rds_instance" "instance" {
   name              = "exzi-rds"
   flavor            = "rds.mysql.n1.large.2"
-  vpc_id            = var.vpc_id
-  subnet_id         = var.subnet_id
-  security_group_id = var.secgroup_id
+  vpc_id            = huaweicloud_vpc.myvpc.id
+  subnet_id         = huaweicloud_vpc_subnet.mysubnet.id
+  security_group_id = huaweicloud_networking_secgroup.secgroup.id
   availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
 
   db {
