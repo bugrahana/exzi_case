@@ -39,5 +39,5 @@ jobs:
         with:
           context: ./url-shortener
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/exci-case/url-shortener:latest
+          tags: ${{ secrets.DOCKER_REGISTRY }}/exci_case/url-shortener:latest
           file: ./url-shortener/Dockerfile
