@@ -13,7 +13,7 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: 'huaweicloudcreds', passwordVariable: 'HW_SECRET_KEY', usernameVariable: 'HW_ACCESS_KEY')
                 ]) {
-                    sh 'cd terraform; terraform init -var "huaweicloud_access_key=$HW_ACCESS_KEY" -var "huaweicloud_secret_key=$HW_SECRET_KEY"'
+                    sh 'cd terraform; terraform init'
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: 'huaweicloudcreds', passwordVariable: 'HW_SECRET_KEY', usernameVariable: 'HW_ACCESS_KEY')
                 ]) {
-                sh 'cd terraform; terraform apply -var "huaweicloud_access_key=$HW_ACCESS_KEY" -var "huaweicloud_secret_key=$HW_SECRET_KEY" --auto-approve'
+                sh 'cd terraform; terraform apply -var huaweicloud_access_key=$HW_ACCESS_KEY -var huaweicloud_secret_key=$HW_SECRET_KEY --auto-approve'
                 }
             }
         }
