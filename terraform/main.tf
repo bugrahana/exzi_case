@@ -46,7 +46,7 @@ resource "huaweicloud_networking_secgroup_rule" "rule2" {
 }
 
 resource "huaweicloud_networking_secgroup_rule" "rule3" {
-  security_group_id       = var.security_group_id
+  security_group_id       = huaweicloud_networking_secgroup.secgroup.id
   direction               = "ingress"
   action                  = "allow"
   ethertype               = "IPv4"
