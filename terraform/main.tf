@@ -27,7 +27,7 @@ resource "huaweicloud_networking_secgroup" "secgroup" {
   name        = "secgroup_1"
 }
 
-resource "huaweicloud_networking_secgroup_rule" "test" {
+resource "huaweicloud_networking_secgroup_rule" "rule1" {
   security_group_id       = huaweicloud_networking_secgroup.secgroup.id
   direction               = "egress"
   action                  = "allow"
@@ -36,7 +36,7 @@ resource "huaweicloud_networking_secgroup_rule" "test" {
   remote_ip_prefix        = "::/0"
 }
 
-resource "huaweicloud_networking_secgroup_rule" "test" {
+resource "huaweicloud_networking_secgroup_rule" "rule2" {
   security_group_id       = huaweicloud_networking_secgroup.secgroup.id
   direction               = "egress"
   action                  = "allow"
@@ -45,7 +45,7 @@ resource "huaweicloud_networking_secgroup_rule" "test" {
   remote_ip_prefix        = "0.0.0.0/0"
 }
 
-resource "huaweicloud_networking_secgroup_rule" "test" {
+resource "huaweicloud_networking_secgroup_rule" "rule3" {
   security_group_id       = var.security_group_id
   direction               = "ingress"
   action                  = "allow"
