@@ -35,7 +35,7 @@ variable "subnet_gw" {
 
 variable "cce_cluster_name" {
   description="cce cluster name"
-  default="exci_case"
+  default="exci-case"
 }
 
 variable "node_count" {
