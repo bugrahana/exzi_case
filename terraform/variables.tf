@@ -32,3 +32,13 @@ variable "subnet_gw" {
   description="subnet gateway"
   default="192.168.0.1"
 }
+
+variable "cce_cluster_name" {
+  description="cce cluster name"
+  default="exci_case"
+}
+
+variable "node_count" {
+  description="cce cluster node count"
+  default="1"
+}

@@ -6,12 +6,12 @@ provider "huaweicloud" {
   secret_key = var.huaweicloud_secret_key
 }
 
-resource "huaweicloud_vpc" "vpc" { # create vpc
+resource "huaweicloud_vpc" "myvpc" { # create vpc
   name = var.vpc_name
   cidr = var.vpc_cidr
 }
 
-resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
+resource "huaweicloud_vpc_subnet" "mysubnet" { #create subnet
   name       = var.subnet_name
   cidr       = var.subnet_cidr
   gateway_ip = var.subnet_gw
@@ -19,6 +19,66 @@ resource "huaweicloud_vpc_subnet" "subnet1" { #create subnet
   //dns is required for cce node installing
   primary_dns   = "100.125.1.250"
   secondary_dns = "100.125.21.250"
-  vpc_id        = huaweicloud_vpc.vpc.id
-  depends_on = [huaweicloud_vpc.vpc]
+  vpc_id        = huaweicloud_myvpc.vpc.id
+  depends_on = [huaweicloud_vpc.myvpc]
+}
+
+
+
+resource "huaweicloud_vpc_eip" "myeip" { #create eip
+  publicip {
+    type = "5_bgp"
+  }
+  bandwidth {
+    name        = "test"
+    size        = 8
+    share_type  = "PER"
+    charge_mode = "traffic"
+  }
+}
+
+resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
+  name                   = var.cce_cluster_name
+  #cluster_type          = "VirtualMachine"
+  cluster_version        = "v1.25"
+  flavor_id              = "cce.s1.small"
+  vpc_id                 = huaweicloud_vpc.myvpc.id
+  subnet_id              = huaweicloud_vpc_subnet.mysubnet.id
+  container_network_type = "overlay_l2"
+  #authentication_mode   = "rbac"
+  eip                    = huaweicloud_vpc_eip.myeip.address
+  depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
+}
+
+
+data "huaweicloud_availability_zones" "myaz" {}
+
+
+resource "huaweicloud_cce_node" "node" {
+  count = var.node_count
+  cluster_id        = huaweicloud_cce_cluster.mycluster.id
+  name              = "node-${count.index}" # optional
+  flavor_id         = "c7.large.2"
+  os                = "CentOS 7.6"
+  availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
+  password          = "Bugrahan@exzi1234"
+  root_volume {
+    size       = 40
+    volumetype = "SAS"
+  }
+  data_volumes {
+    size       = 100
+    volumetype = "SAS"
+  }
+  depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet, huaweicloud_cce_cluster.mycluster]
+}
+
+output "kubeapi" {
+  value = huaweicloud_vpc_eip.myeip.address
+}
+
+output "NodeIps" {
+  value = [
+    for node in huaweicloud_cce_node.node : node.private_ip
+  ]
 }
