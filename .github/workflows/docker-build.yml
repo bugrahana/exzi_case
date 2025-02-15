@@ -29,3 +29,6 @@ jobs:
       
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_REGISTRY }}/exci_case/url-shortener:latest
+
+
+### todo get http://101.44.38.124:8080/job/exzi_case/build?token=exzi_case_image_pushed

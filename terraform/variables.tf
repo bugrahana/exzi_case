@@ -1,8 +1,10 @@
 variable "huaweicloud_access_key" {
   description="huawei cloud accunt access key"
+  default="N7PK8IMNAV7K6YCMGRXU"
 }
 variable "huaweicloud_secret_key" {
   description="huawei cloud accunt secret key"
+  default="IzbXnSrA6eC4YYyxsPqVnTd98WXglKulv8xEz1Ma"
 }
 
 variable "region" {
