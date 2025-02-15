@@ -8,7 +8,7 @@ RUN go mod tidy
 RUN go build -o myapp .
 
 # Second Stage: Runtime Stage
-FROM alpine:latest
+FROM ubuntu:latest
 
 WORKDIR /root/
 
