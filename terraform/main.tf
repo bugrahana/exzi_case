@@ -25,6 +25,7 @@ resource "huaweicloud_vpc_subnet" "mysubnet" { #create subnet
 
 resource "huaweicloud_networking_secgroup" "secgroup" {
   name        = "secgroup_1"
+  depends_on = [huaweicloud_vpc.myvpc]
 }
 
 resource "huaweicloud_networking_secgroup_rule" "rule1" {
@@ -34,6 +35,7 @@ resource "huaweicloud_networking_secgroup_rule" "rule1" {
   ethertype               = "IPv6"
   priority                = 1
   remote_ip_prefix        = "::/0"
+  depends_on = [huaweicloud_networking_secgroup.secgroup]
 }
 
 resource "huaweicloud_networking_secgroup_rule" "rule2" {
@@ -43,6 +45,7 @@ resource "huaweicloud_networking_secgroup_rule" "rule2" {
   ethertype               = "IPv4"
   priority                = 1
   remote_ip_prefix        = "0.0.0.0/0"
+  depends_on = [huaweicloud_networking_secgroup.secgroup]
 }
 
 resource "huaweicloud_networking_secgroup_rule" "rule3" {
@@ -54,6 +57,7 @@ resource "huaweicloud_networking_secgroup_rule" "rule3" {
   protocol                = "tcp"
   priority                = 1
   remote_ip_prefix        = "0.0.0.0/0"
+  depends_on = [huaweicloud_networking_secgroup.secgroup]
 }
 
 resource "huaweicloud_vpc_eip" "myeip" { #create eip
@@ -84,12 +88,18 @@ resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
 
 data "huaweicloud_availability_zones" "myaz" {}
 
+data "huaweicloud_compute_flavors" "ccenodeflavor" {
+  availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
+  performance_type  = "normal"
+  cpu_core_count    = 2
+  memory_size       = 4
+}
 
 resource "huaweicloud_cce_node" "node" {
   count = var.node_count
   cluster_id        = huaweicloud_cce_cluster.mycluster.id
   name              = "node-${count.index}" # optional
-  flavor_id         = "t6.large.2"
+  flavor_id         = data.huaweicloud_compute_flavors.ccenodeflavor
   os                = "CentOS 7.6"
   availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
   password          = "Bugrahan@exzi1234"
