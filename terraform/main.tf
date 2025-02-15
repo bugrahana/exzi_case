@@ -154,3 +154,15 @@ resource "huaweicloud_rds_instance" "instance" {
   
   depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
 }
+
+resource "huaweicloud_cce_pvc" "test" {
+  cluster_id  = huaweicloud_cce_cluster.mycluster.id
+  namespace   = "default"
+  name        = "redis-pvc"
+  annotations = {
+    "everest.io/disk-volume-type" = "SSD"
+  }
+  storage_class_name = "csi-disk"
+  access_modes = ["ReadWriteOnce"]
+  storage = "10Gi"
+}

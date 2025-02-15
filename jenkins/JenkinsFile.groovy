@@ -29,7 +29,7 @@ pipeline {
         stage('kubectl get pods') {
             steps {
                 sh '''
-                    kubectl --kubeconfig ./kubeconf get pods -A
+                    cd terraform; kubectl --kubeconfig ./kubeconfig get pods -A
                 '''
             }
         }
