@@ -12,7 +12,7 @@ variable "region" {
 
 variable "vpc_name" {
   description="vpc name"
-  default="bugra_vpc"
+  default="exci_case_vpc"
 }
 
 variable "vpc_cidr" {
@@ -22,7 +22,7 @@ variable "vpc_cidr" {
 
 variable "subnet_name" {
   description="subnet name"
-  default="bugra_subnet"
+  default="exci_case_subnet"
 }
 variable "subnet_cidr" {
   description="subnet cidr"
@@ -45,5 +45,5 @@ variable "node_count" {
 
 variable "db_pass"{
   description="db pass"
-  default="Bugrahan@exzi1234"
+  default="Bugrahanexzi1234"
 }
