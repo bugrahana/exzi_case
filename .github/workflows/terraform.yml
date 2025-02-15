@@ -2,7 +2,7 @@ name: 'Terraform Deploy'
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main2" ]
     
 jobs:
   terraform:
@@ -44,3 +44,45 @@ jobs:
         terraform apply -auto-approve -var "huaweicloud_access_key=$HUAWEICLOUD_ACCESS_KEY" -var "huaweicloud_secret_key=$HUAWEICLOUD_SECRET_KEY"
       working-directory: terraform
 
+    - name: Get CCE cluster id ###TODO fill
+      run: echo "CCE_CLUSTER_ID=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV ###somehow
+
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Huawei Cloud CLI
+        run: |
+          curl -sSL https://repo.huaweicloud.com/hcloud-cli/deb/hcloud-cli.deb -o hcloud-cli.deb
+          sudo dpkg -i hcloud-cli.deb
+          sudo apt-get update
+          sudo apt-get install -f
+          
+      - name: Authenticate with Huawei Cloud CLI
+        run: |
+          echo "$HCLOUD_ACCESS_KEY" > access_key.txt
+          echo "$HCLOUD_SECRET_KEY" > secret_key.txt
+          hcloud configure --access-key-file access_key.txt --secret-key-file secret_key.txt --region tr-west-1
+
+        env:
+          HCLOUD_ACCESS_KEY: ${{ secrets.HUAWEICLOUD_ACCESS_KEY }}
+          HCLOUD_SECRET_KEY: ${{ secrets.HUAWEICLOUD_SECRET_KEY }}
+
+      - name: Get Kubeconfig from Huawei Cloud
+        id: get_kubeconfig
+        run: |
+          # Replace <cluster-id> with your actual cluster ID
+          kubeconfig=$(hcloud cce cluster get-kubeconfig --cluster-id ${{ env.CCE_CLUSTER_ID Failures }} )
+          echo "KUBECONFIG=$kubeconfig" >> $GITHUB_ENV ### hcloud CCE CreateKubernetesClusterCert --cli-region="tr-west-1" --Content-Type="application/json" --cluster_id="1234" --duration=1825
+
+      - name: Verify kubectl access
+        run: |
+          # The KUBECONFIG environment variable should now contain the kubeconfig
+          echo "$KUBECONFIG" > $HOME/.kube/config
+          kubectl get nodes
