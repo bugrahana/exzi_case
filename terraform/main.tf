@@ -58,7 +58,7 @@ resource "huaweicloud_cce_node" "node" {
   count = var.node_count
   cluster_id        = huaweicloud_cce_cluster.mycluster.id
   name              = "node-${count.index}" # optional
-  flavor_id         = "c7.large.2"
+  flavor_id         = "t6.large.2 "
   os                = "CentOS 7.6"
   availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
   password          = "Bugrahan@exzi1234"
@@ -81,4 +81,8 @@ output "NodeIps" {
   value = [
     for node in huaweicloud_cce_node.node : node.private_ip
   ]
+}
+
+output "kubeconf" {
+  value = huaweicloud_cce_cluster.mycluster.kube_config_raw
 }
