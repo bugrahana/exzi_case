@@ -30,5 +30,14 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_REGISTRY }}/exci_case/url-shortener:latest
 
+      - name: Pull redis image
+        run: docker pull redis:alpine
+
+      - name: tag redis image
+        run: docker tag redis:alpine ${{ secrets.DOCKER_REGISTRY }}/exci_case/redis:alpine
+
+      - name: Push redis image
+        run: docker push ${{ secrets.DOCKER_REGISTRY }}/exci_case/redis:alpine
+
 
 ### todo get http://101.44.38.124:8080/job/exzi_case/build?token=exzi_case_image_pushed
