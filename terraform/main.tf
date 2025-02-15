@@ -45,7 +45,7 @@ resource "huaweicloud_networking_secgroup" "secgroup" {
   //ethertype               = "IPv4"
   //priority                = 1
   //remote_ip_prefix        = "0.0.0.0/0"
-  /depends_on = [huaweicloud_networking_secgroup.secgroup]
+  //depends_on = [huaweicloud_networking_secgroup.secgroup]
 //}
 
 resource "huaweicloud_networking_secgroup_rule" "rule3" {
