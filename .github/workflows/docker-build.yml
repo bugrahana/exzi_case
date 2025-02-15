@@ -26,13 +26,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: swr.tr-west-1.myhuaweicloud.com
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./url-shortener
-          push: false 
-          tags: swr.tr-west-1.myhuaweicloud.com/exci_case/url-shortener:latest
-          file: ./url-shortener/Dockerfile
+      - name: Build Docker image
+        working-directory: url-shortener
+        run: docker build -t swr.tr-west-1.myhuaweicloud.com/exci_case/url-shortener:latest .
       
       - name: Push Docker image
         run: docker push swr.tr-west-1.myhuaweicloud.com/exci_case/url-shortener:latest
