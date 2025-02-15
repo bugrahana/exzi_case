@@ -40,4 +40,4 @@ jobs:
           context: ./url-shortener
           push: true
           tags: ${{ secrets.DOCKER_REGISTRY }}/exci-case/url-shortener:latest
-          file: ./Dockerfile
+          file: ./url-shortener/Dockerfile
