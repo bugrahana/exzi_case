@@ -42,3 +42,8 @@ variable "node_count" {
   description="cce cluster node count"
   default="1"
 }
+
+variable "db_pass"{
+  description="db pass"
+  default="123456"
+}
