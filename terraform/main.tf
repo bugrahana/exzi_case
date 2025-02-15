@@ -102,7 +102,7 @@ resource "huaweicloud_cce_node" "node" {
   flavor_id         = data.huaweicloud_compute_flavors.ccenodeflavor.ids[0]
   os                = "CentOS 7.6"
   availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
-  password          = "Bugrahanexzi1234"
+  password          = "Bugrahanexzi1234."
   root_volume {
     size       = 40
     volumetype = "SAS"
