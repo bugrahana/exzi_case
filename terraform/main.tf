@@ -84,16 +84,25 @@ resource "huaweicloud_vpc_eip" "myeiplb" { #create eip
   }
 }
 
-resource "huaweicloud_lb_loadbalancer" "lb_1" {
-  vip_subnet_id = huaweicloud_vpc_subnet.mysubnet.id
-  depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
+resource "huaweicloud_elb_loadbalancer" "basic" {
+  name              = "basic"
+  description       = "basic example"
+  cross_vpc_backend = true
+
+  vpc_id            = huaweicloud_vpc.myvpc.id
+  ipv4_subnet_id    = huaweicloud_vpc_subnet.mysubnet.id
+
+  l7_flavor_id = "L7"
+
+  availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
+  bandwidth_charge_mode = traffic
 }
 
-resource "huaweicloud_vpc_eip_associate" "eip_1" {
-  public_ip = huaweicloud_vpc_eip.myeiplb.address
-  port_id   = huaweicloud_lb_loadbalancer.lb_1.vip_port_id
-  depends_on = [huaweicloud_lb_loadbalancer.lb_1]
-}
+//resource "huaweicloud_vpc_eip_associate" "eip_1" {
+ // public_ip = huaweicloud_vpc_eip.myeiplb.address
+  //port_id   = huaweicloud_lb_loadbalancer.lb_1.vip_port_id
+  //depends_on = [huaweicloud_lb_loadbalancer.lb_1]
+//}
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
   name                   = var.cce_cluster_name
