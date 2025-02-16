@@ -84,6 +84,7 @@ resource "huaweicloud_vpc_eip" "myeiplb" { #create eip
   }
 }
 
+
 resource "huaweicloud_elb_loadbalancer" "basic" {
   name              = "basic"
   description       = "basic example"
