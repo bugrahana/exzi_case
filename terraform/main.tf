@@ -95,7 +95,7 @@ resource "huaweicloud_elb_loadbalancer" "basic" {
   l7_flavor_id = "L7"
 
   availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
-  bandwidth_charge_mode = traffic
+  bandwidth_charge_mode = "traffic"
 }
 
 //resource "huaweicloud_vpc_eip_associate" "eip_1" {
