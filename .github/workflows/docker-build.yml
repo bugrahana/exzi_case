@@ -46,6 +46,3 @@ jobs:
           user: "admin"
           token: ${{ secrets.JENKINS_TOKEN }}
           job: "exzi_case"
-
-
-### todo get http://101.44.38.124:8080/job/exzi_case/build?token=exzi_case_image_pushed

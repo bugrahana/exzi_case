@@ -1,5 +1,3 @@
-
-
 provider "huaweicloud" {
   region     = var.region
   access_key = var.huaweicloud_access_key
@@ -28,27 +26,7 @@ resource "huaweicloud_networking_secgroup" "secgroup" {
   depends_on = [huaweicloud_vpc.myvpc]
 }
 
-//resource "huaweicloud_networking_secgroup_rule" "rule1" {
- // security_group_id       = huaweicloud_networking_secgroup.secgroup.id
-  //direction               = "egress"
-  //action                  = "allow"
-  //ethertype               = "IPv6"
-  //priority                = 1
-  //remote_ip_prefix        = "::/0"
-  //depends_on = [huaweicloud_networking_secgroup.secgroup]
-//}
-
-//resource "huaweicloud_networking_secgroup_rule" "rule2" {
- // security_group_id       = huaweicloud_networking_secgroup.secgroup.id
-  //direction               = "egress"
-  //action                  = "allow"
-  //ethertype               = "IPv4"
-  //priority                = 1
-  //remote_ip_prefix        = "0.0.0.0/0"
-  //depends_on = [huaweicloud_networking_secgroup.secgroup]
-//}
-
-resource "huaweicloud_networking_secgroup_rule" "rule3" {
+resource "huaweicloud_networking_secgroup_rule" "rule" {
   security_group_id       = huaweicloud_networking_secgroup.secgroup.id
   direction               = "ingress"
   action                  = "allow"
@@ -84,7 +62,6 @@ resource "huaweicloud_vpc_eip" "myeiplb" { #create eip
   }
 }
 
-
 resource "huaweicloud_elb_loadbalancer" "basic" {
   name              = "basic"
   description       = "basic example"
@@ -96,7 +73,6 @@ resource "huaweicloud_elb_loadbalancer" "basic" {
   availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
   ipv4_eip_id = huaweicloud_vpc_eip.myeiplb.id
 }
-
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
   name                   = var.cce_cluster_name
@@ -110,7 +86,6 @@ resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
   eip                    = huaweicloud_vpc_eip.myeip.address
   depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
 }
-
 
 data "huaweicloud_availability_zones" "myaz" {}
 
@@ -140,12 +115,10 @@ resource "huaweicloud_cce_node" "node" {
   depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet, huaweicloud_cce_cluster.mycluster]
 }
 
-
 resource "local_file" "kubeconffile" {
     content  = huaweicloud_cce_cluster.mycluster.kube_config_raw
     filename = "kubeconfig"
 }
-
 
 resource "huaweicloud_rds_instance" "instance" {
   name              = "exzi-rds"
@@ -168,15 +141,3 @@ resource "huaweicloud_rds_instance" "instance" {
   
   depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
 }
-
-//resource "huaweicloud_cce_pvc" "test" {
-//  cluster_id  = huaweicloud_cce_cluster.mycluster.id
-//  namespace   = "default"
-//  name        = "redis-pvc"
-//  annotations = {
-//    "everest.io/disk-volume-type" = "SSD"
-//  }
-//  storage_class_name = "csi-disk"
-//  access_modes = ["ReadWriteOnce"]
-//  storage = "10Gi"
-//}
