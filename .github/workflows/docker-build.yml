@@ -39,5 +39,13 @@ jobs:
       - name: Push redis image
         run: docker push ${{ secrets.DOCKER_REGISTRY }}/exci_case/redis:alpine
 
+      - name: trigger jenkins Job
+        uses: appleboy/jenkins-action@master
+        with:
+          url: "http://101.44.38.124:8080"
+          user: "admin"
+          token: ${{ secrets.JENKINS_TOKEN }}
+          job: "exzi_case"
+
 
 ### todo get http://101.44.38.124:8080/job/exzi_case/build?token=exzi_case_image_pushed
