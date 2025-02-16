@@ -86,11 +86,13 @@ resource "huaweicloud_vpc_eip" "myeiplb" { #create eip
 
 resource "huaweicloud_lb_loadbalancer" "lb_1" {
   vip_subnet_id = huaweicloud_vpc_subnet.mysubnet.id
+  depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet]
 }
 
 resource "huaweicloud_vpc_eip_associate" "eip_1" {
   public_ip = huaweicloud_vpc_eip.myeiplb.address
   port_id   = huaweicloud_lb_loadbalancer.lb_1.vip_port_id
+  depends_on = [huaweicloud_lb_loadbalancer.lb_1]
 }
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
