@@ -138,19 +138,7 @@ resource "huaweicloud_cce_node" "node" {
   depends_on = [huaweicloud_vpc.myvpc, huaweicloud_vpc_subnet.mysubnet, huaweicloud_cce_cluster.mycluster]
 }
 
-output "kubeapi" {
-  value = huaweicloud_vpc_eip.myeip.address
-}
 
-output "NodeIps" {
-  value = [
-    for node in huaweicloud_cce_node.node : node.private_ip
-  ]
-}
-
-output "kubeconf" {
-  value = huaweicloud_cce_cluster.mycluster.kube_config_raw
-}
 resource "local_file" "kubeconffile" {
     content  = huaweicloud_cce_cluster.mycluster.kube_config_raw
     filename = "kubeconfig"

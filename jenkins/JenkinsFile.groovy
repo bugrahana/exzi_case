@@ -30,12 +30,18 @@ pipeline {
             steps {
                 sh '''
                     cp -f terraform/kubeconfig yamls/
-                    cd yamls
+                    cd terraform
+                    eval dbip=$(terraform output dbip)
+                    eval elbid=$(terraform output elbid)
+                    cd ../yamls
+                    sed -i "s/MYSQL_DB_IP/${dbip}/g" golang.yaml
+                    sed -i "s/ELB_ID_REPLACE/${elbid}/g" golang.yaml
+
                     kubectl --kubeconfig ./kubeconfig apply -f secret.yaml
                     kubectl --kubeconfig ./kubeconfig apply -f redis.yaml
                     kubectl --kubeconfig ./kubeconfig apply -f golang.yaml
                 '''
             }
-        } /// TODO apply yamls, create eip and LB and then crate ingress with that lb to the service
+        } 
     }
 }
