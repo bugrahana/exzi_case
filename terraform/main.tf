@@ -95,14 +95,9 @@ resource "huaweicloud_elb_loadbalancer" "basic" {
   l7_flavor_id = "L7"
 
   availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
-  bandwidth_charge_mode = "traffic"
+  ipv4_eip_id = huaweicloud_vpc_eip.myeiplb.id
 }
 
-//resource "huaweicloud_vpc_eip_associate" "eip_1" {
- // public_ip = huaweicloud_vpc_eip.myeiplb.address
-  //port_id   = huaweicloud_lb_loadbalancer.lb_1.vip_port_id
-  //depends_on = [huaweicloud_lb_loadbalancer.lb_1]
-//}
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
   name                   = var.cce_cluster_name
