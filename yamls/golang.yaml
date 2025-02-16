@@ -12,10 +12,10 @@ spec:
     app: url-shortener  # This should match the label on your deployment
   ports:
     - protocol: TCP
-      port: 8080  # The port Kubernetes will expose internally
+      port: 80  # The port Kubernetes will expose internally
       targetPort: 8080  # The port your container is listening on
       nodePort: 30080  
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
