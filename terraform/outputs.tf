@@ -8,5 +8,5 @@ output "dbip" {
 }
 
 output "elbid" {
-  value = huaweicloud_vpc_eip.myeiplb.id
+  value = huaweicloud_elb_loadbalancer.basic.id
 }
