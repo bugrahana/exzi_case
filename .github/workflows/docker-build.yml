@@ -3,10 +3,10 @@ name: Build Docker Image
 on:
   push:
     branches:
-      - main
+      - main2 # edited for not to trigger now
   pull_request:
     branches:
-      - main
+      - main2 # edited for not to trigger now
 
 jobs:
   build:

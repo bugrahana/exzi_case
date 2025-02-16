@@ -1,0 +1,428 @@
+Started by user admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/exzi_case
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: NONE
+using credential bugrahana_github
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/exzi_case/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/bugrahana/exzi_case # timeout=10
+Fetching upstream changes from https://github.com/bugrahana/exzi_case
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.5'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/bugrahana/exzi_case +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision cd19fde69fe1f7ef2526d471a064c676556c78cf (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f cd19fde69fe1f7ef2526d471a064c676556c78cf # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main cd19fde69fe1f7ef2526d471a064c676556c78cf # timeout=10
+Commit message: "final edit"
+ > git rev-list --no-walk 6967444a959c9f2ebb41ff7d1d73492d59c1772b # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (terraform init)
+[Pipeline] sh
++ cd terraform
++ terraform init -no-color
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of huaweicloud/huaweicloud from the dependency lock file
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Using previously-installed huaweicloud/huaweicloud v1.72.1
+- Using previously-installed hashicorp/local v2.5.2
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (terraform apply)
+[Pipeline] withCredentials
+Masking supported pattern matches of $HW_SECRET_KEY
+[Pipeline] {
+[Pipeline] sh
++ cd terraform
++ terraform apply -no-color -var huaweicloud_access_key=N7PK8IMNAV7K6YCMGRXU -var huaweicloud_secret_key=**** --auto-approve
+data.huaweicloud_availability_zones.myaz: Reading...
+huaweicloud_vpc_eip.myeiplb: Refreshing state... [id=311c1045-384d-4386-97ac-a4acac0761a9]
+huaweicloud_vpc.myvpc: Refreshing state... [id=500fb539-9802-4e74-8594-123ae2b33cae]
+data.huaweicloud_availability_zones.myaz: Read complete after 1s [id=834163482]
+data.huaweicloud_compute_flavors.ccenodeflavor: Reading...
+data.huaweicloud_compute_flavors.ccenodeflavor: Read complete after 0s [id=4256446443]
+huaweicloud_vpc_subnet.mysubnet: Refreshing state... [id=a401d02d-d06b-44b1-83e0-4cc8705896ba]
+huaweicloud_elb_loadbalancer.basic: Refreshing state... [id=ed08d903-a8df-4ecf-8d62-a8db20109903]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # huaweicloud_cce_cluster.mycluster will be created
+  + resource "huaweicloud_cce_cluster" "mycluster" {
+      + alias                  = (known after apply)
+      + authentication_mode    = "rbac"
+      + billing_mode           = (known after apply)
+      + category               = (known after apply)
+      + certificate_clusters   = (known after apply)
+      + certificate_users      = (known after apply)
+      + charging_mode          = (known after apply)
+      + cluster_type           = "VirtualMachine"
+      + cluster_version        = "v1.28"
+      + container_network_cidr = (known after apply)
+      + container_network_type = "overlay_l2"
+      + custom_san             = (known after apply)
+      + description            = (known after apply)
+      + eip                    = (known after apply)
+      + eni_subnet_cidr        = (known after apply)
+      + eni_subnet_id          = (known after apply)
+      + enterprise_project_id  = (known after apply)
+      + flavor_id              = "cce.s1.small"
+      + highway_subnet_id      = (known after apply)
+      + id                     = (known after apply)
+      + ipv6_enable            = (known after apply)
+      + kube_config_raw        = (known after apply)
+      + kube_proxy_mode        = (known after apply)
+      + name                   = "exci-case"
+      + region                 = (known after apply)
+      + security_group_id      = (known after apply)
+      + service_network_cidr   = (known after apply)
+      + status                 = (known after apply)
+      + subnet_id              = "a401d02d-d06b-44b1-83e0-4cc8705896ba"
+      + support_istio          = (known after apply)
+      + vpc_id                 = "500fb539-9802-4e74-8594-123ae2b33cae"
+
+      + masters (known after apply)
+    }
+
+  # huaweicloud_cce_node.node[0] will be created
+  + resource "huaweicloud_cce_node" "node" {
+      + availability_zone      = "tr-west-1a"
+      + billing_mode           = (known after apply)
+      + charging_mode          = (known after apply)
+      + cluster_id             = (known after apply)
+      + enterprise_project_id  = (known after apply)
+      + flavor_id              = "s7n.large.2"
+      + id                     = (known after apply)
+      + initialized_conditions = (known after apply)
+      + name                   = "node-0"
+      + os                     = "CentOS 7.6"
+      + password               = (sensitive value)
+      + private_ip             = (known after apply)
+      + public_ip              = (known after apply)
+      + region                 = (known after apply)
+      + runtime                = (known after apply)
+      + server_id              = (known after apply)
+      + status                 = (known after apply)
+      + subnet_id              = (known after apply)
+
+      + data_volumes {
+          + dss_pool_id   = (known after apply)
+          + extend_params = (known after apply)
+          + kms_key_id    = (known after apply)
+          + size          = 100
+          + volumetype    = "SAS"
+        }
+
+      + hostname_config (known after apply)
+
+      + root_volume {
+          + dss_pool_id   = (known after apply)
+          + extend_params = (known after apply)
+          + kms_key_id    = (known after apply)
+          + size          = 40
+          + volumetype    = "SAS"
+        }
+    }
+
+  # huaweicloud_networking_secgroup.secgroup will be created
+  + resource "huaweicloud_networking_secgroup" "secgroup" {
+      + created_at            = (known after apply)
+      + enterprise_project_id = (known after apply)
+      + id                    = (known after apply)
+      + name                  = "secgroup_1"
+      + region                = (known after apply)
+      + rules                 = (known after apply)
+      + updated_at            = (known after apply)
+    }
+
+  # huaweicloud_networking_secgroup_rule.rule will be created
+  + resource "huaweicloud_networking_secgroup_rule" "rule" {
+      + action                  = "allow"
+      + direction               = "ingress"
+      + ethertype               = "IPv4"
+      + id                      = (known after apply)
+      + port_range_max          = (known after apply)
+      + port_range_min          = (known after apply)
+      + ports                   = "80,22,8080,3306"
+      + priority                = 1
+      + protocol                = "tcp"
+      + region                  = (known after apply)
+      + remote_address_group_id = (known after apply)
+      + remote_group_id         = (known after apply)
+      + remote_ip_prefix        = "0.0.0.0/0"
+      + security_group_id       = (known after apply)
+    }
+
+  # huaweicloud_rds_instance.instance will be created
+  + resource "huaweicloud_rds_instance" "instance" {
+      + availability_zone                 = [
+          + "tr-west-1a",
+        ]
+      + charging_mode                     = (known after apply)
+      + collation                         = (known after apply)
+      + created                           = (known after apply)
+      + enterprise_project_id             = (known after apply)
+      + fixed_ip                          = (known after apply)
+      + flavor                            = "rds.mysql.n1.large.2"
+      + ha_replication_mode               = (known after apply)
+      + id                                = (known after apply)
+      + maintain_begin                    = (known after apply)
+      + maintain_end                      = (known after apply)
+      + name                              = "exzi-rds"
+      + nodes                             = (known after apply)
+      + private_dns_name_prefix           = (known after apply)
+      + private_dns_names                 = (known after apply)
+      + private_ips                       = (known after apply)
+      + public_ips                        = (known after apply)
+      + region                            = (known after apply)
+      + seconds_level_monitoring_enabled  = (known after apply)
+      + seconds_level_monitoring_interval = (known after apply)
+      + security_group_id                 = (known after apply)
+      + ssl_enable                        = (known after apply)
+      + status                            = (known after apply)
+      + subnet_id                         = "a401d02d-d06b-44b1-83e0-4cc8705896ba"
+      + switch_strategy                   = (known after apply)
+      + tde_enabled                       = (known after apply)
+      + time_zone                         = (known after apply)
+      + vpc_id                            = "500fb539-9802-4e74-8594-123ae2b33cae"
+
+      + backup_strategy (known after apply)
+
+      + db {
+          + password  = (sensitive value)
+          + port      = (known after apply)
+          + type      = "MySQL"
+          + user_name = (known after apply)
+          + version   = "5.7"
+        }
+
+      + msdtc_hosts (known after apply)
+
+      + parameters (known after apply)
+
+      + volume {
+          + disk_encryption_id = (known after apply)
+          + size               = 40
+          + type               = "CLOUDSSD"
+        }
+    }
+
+  # huaweicloud_vpc_eip.myeip will be created
+  + resource "huaweicloud_vpc_eip" "myeip" {
+      + address               = (known after apply)
+      + associate_id          = (known after apply)
+      + associate_type        = (known after apply)
+      + charging_mode         = (known after apply)
+      + created_at            = (known after apply)
+      + enterprise_project_id = (known after apply)
+      + id                    = (known after apply)
+      + instance_id           = (known after apply)
+      + instance_type         = (known after apply)
+      + ipv6_address          = (known after apply)
+      + port_id               = (known after apply)
+      + private_ip            = (known after apply)
+      + region                = (known after apply)
+      + status                = (known after apply)
+      + updated_at            = (known after apply)
+
+      + bandwidth {
+          + charge_mode = "traffic"
+          + id          = (known after apply)
+          + name        = "test"
+          + share_type  = "PER"
+          + size        = 8
+        }
+
+      + publicip {
+          + ip_address = (known after apply)
+          + ip_version = (known after apply)
+          + port_id    = (known after apply)
+          + type       = "5_bgp"
+        }
+    }
+
+  # local_file.kubeconffile will be created
+  + resource "local_file" "kubeconffile" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "kubeconfig"
+      + id                   = (known after apply)
+    }
+
+Plan: 7 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + dbip     = (known after apply)
+  + elbid    = "ed08d903-a8df-4ecf-8d62-a8db20109903"
+  + kubeconf = (known after apply)
+huaweicloud_networking_secgroup.secgroup: Creating...
+huaweicloud_vpc_eip.myeip: Creating...
+huaweicloud_networking_secgroup.secgroup: Creation complete after 0s [id=2fa5d8a5-97dd-428e-b178-645e0300c54e]
+huaweicloud_networking_secgroup_rule.rule: Creating...
+huaweicloud_rds_instance.instance: Creating...
+huaweicloud_networking_secgroup_rule.rule: Creation complete after 0s [id=9ae0bdc6-a9bc-4fa6-bdf9-78fc25a7b666]
+huaweicloud_vpc_eip.myeip: Creation complete after 6s [id=4b9fa4f6-c2ea-4a08-a937-e75e5ea54572]
+huaweicloud_cce_cluster.mycluster: Creating...
+huaweicloud_rds_instance.instance: Still creating... [10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [20s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [30s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [30s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [40s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [40s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [50s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [50s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m0s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m0s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m20s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m30s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m30s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m40s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m40s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [1m50s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [1m50s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m0s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m0s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m20s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m30s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m30s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m40s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m40s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [2m50s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [2m50s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m0s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m0s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m20s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m30s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m30s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m40s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m40s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [3m50s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [3m50s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m0s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m0s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m20s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m30s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m30s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m40s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m40s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [4m50s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [4m50s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [5m0s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [5m0s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [5m10s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [5m10s elapsed]
+huaweicloud_rds_instance.instance: Still creating... [5m20s elapsed]
+huaweicloud_rds_instance.instance: Creation complete after 5m24s [id=3dce880d921a4a2ab94f4e9317668d4din01]
+huaweicloud_cce_cluster.mycluster: Still creating... [5m20s elapsed]
+huaweicloud_cce_cluster.mycluster: Still creating... [5m30s elapsed]
+huaweicloud_cce_cluster.mycluster: Creation complete after 5m36s [id=0f95eda8-ec6d-11ef-b513-0255ac10003e]
+local_file.kubeconffile: Creating...
+huaweicloud_cce_node.node[0]: Creating...
+local_file.kubeconffile: Creation complete after 0s [id=1ecfac303c0c051c587cc0b193734322f08a5d6c]
+huaweicloud_cce_node.node[0]: Still creating... [10s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [20s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [30s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [40s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [50s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m0s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m10s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m20s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m30s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m40s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [1m50s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [2m0s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [2m10s elapsed]
+huaweicloud_cce_node.node[0]: Still creating... [2m20s elapsed]
+huaweicloud_cce_node.node[0]: Creation complete after 2m29s [id=db1467e7-ec6d-11ef-8c29-0255ac10004e]
+
+Apply complete! Resources: 7 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+dbip = "192.168.0.241"
+elbid = "ed08d903-a8df-4ecf-8d62-a8db20109903"
+kubeconf = <<EOT
+{"apiVersion":"v1","clusters":[{"cluster":{"certificate-authority-data":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREekNDQWZlZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFwTVJrd0Z3WURWUVFLRXhCRFEwVWcKVkdWamFHNXZiRzluYVdWek1Rd3dDZ1lEVlFRREV3TkRRMFV3SGhjTk1qVXdNakUyTVRNMU1qQTFXaGNOTkRVdwpNakUyTVRNMU1qQTFXakFwTVJrd0Z3WURWUVFLRXhCRFEwVWdWR1ZqYUc1dmJHOW5hV1Z6TVF3d0NnWURWUVFECkV3TkRRMFV3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRREI4QVFYcFlFZUpSaWoKY1FsRVFmZHpXc0tCQmVYUUpRWVZnVzkwa2N3OHR3L0pFNU9NUmpPd2JuY0JzNXZ5OFdvU3NIS0pmK29zc1hGWApHb2lLaVZ6aGZNeEM5a1hTZ3VNMXAvZ1pSRFNscjNlYzNneTdjQ2MwZEh6QnBDNGxMWkRtdWpLWW1Zc0NZbGgyClFsOFZsdnBCYWt6VC90UGFIR01lZXUrUzE1UzhpczRuZmpBRTh1eU5WS3JBS294OU45ZU96U2FCcHFrZmJJd0QKbXdydlNWcmRxQ0xOTG52QVRmMmZ3WnIwWkEyM3BidUJOdTVDV2RJd1c0RXAxVi9kbzNiMnFOOEZmWnhNcmFRdwpXSVMyZlBzcTNYZDZBZnhPZkdqb3JKdkZhT0YzK05TbVNTSEExaGcwZHYwVG05eFhwbTJuOXZlUlU3dkJLZDhyCi96dmNsaFdqQWdNQkFBR2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC8KTUIwR0ExVWREZ1FXQkJUSnM5UmNzMVBINXpWaUJEY00vUGF6em1Ea2lqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBUUVBcVpGTCtqYmR4OHZVd0tPaFhiK2NQYnFVdFlYZDltV0E2V0VjaGJBbEVib2hBYmlZWmFhVjJ0RkY0WU0rCkVGQ0kyQnZzS0VWRVhZWDU3cWdXZXIrTjJKRDZCelNnTmY2Z2I4WnVaNjJwMXhCd2hSZXhPa2VOZjVieFRvNk8KOXZ3UlpwbDlraWgzZW9ndTMvZDl5ZzFlaEpGb0I0ZHptanZiM2F1bmFBNVc1a3ErV2VDTWhEdGxPbGRXL2RVdQpLVXJTK3U3ZHB5eHVFMzc3WGVtNVlWOUdyZGxyRVlERFdTTVNNaEExQStZT0N4ejNKUTMza0ROWVZUblN5Z2FCCktmdlRlT25TWEp1NXhZMWkrdnU1ZmFEekVudW50RlNReEhtNE9OSFZXYlRmNjFqZGVieGhLUEZqMnMyTEJtNHcKNUtLYWpxL1lwYmpGTFltRXMrSEZtWUdha1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==","server":"https://192.168.0.182:5443"},"name":"internalCluster"},{"cluster":{"insecure-skip-tls-verify":true,"server":"https://213.250.132.190:5443"},"name":"externalCluster"},{"cluster":{"certificate-authority-data":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREekNDQWZlZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFwTVJrd0Z3WURWUVFLRXhCRFEwVWcKVkdWamFHNXZiRzluYVdWek1Rd3dDZ1lEVlFRREV3TkRRMFV3SGhjTk1qVXdNakUyTVRNMU1qQTFXaGNOTkRVdwpNakUyTVRNMU1qQTFXakFwTVJrd0Z3WURWUVFLRXhCRFEwVWdWR1ZqYUc1dmJHOW5hV1Z6TVF3d0NnWURWUVFECkV3TkRRMFV3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRREI4QVFYcFlFZUpSaWoKY1FsRVFmZHpXc0tCQmVYUUpRWVZnVzkwa2N3OHR3L0pFNU9NUmpPd2JuY0JzNXZ5OFdvU3NIS0pmK29zc1hGWApHb2lLaVZ6aGZNeEM5a1hTZ3VNMXAvZ1pSRFNscjNlYzNneTdjQ2MwZEh6QnBDNGxMWkRtdWpLWW1Zc0NZbGgyClFsOFZsdnBCYWt6VC90UGFIR01lZXUrUzE1UzhpczRuZmpBRTh1eU5WS3JBS294OU45ZU96U2FCcHFrZmJJd0QKbXdydlNWcmRxQ0xOTG52QVRmMmZ3WnIwWkEyM3BidUJOdTVDV2RJd1c0RXAxVi9kbzNiMnFOOEZmWnhNcmFRdwpXSVMyZlBzcTNYZDZBZnhPZkdqb3JKdkZhT0YzK05TbVNTSEExaGcwZHYwVG05eFhwbTJuOXZlUlU3dkJLZDhyCi96dmNsaFdqQWdNQkFBR2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC8KTUIwR0ExVWREZ1FXQkJUSnM5UmNzMVBINXpWaUJEY00vUGF6em1Ea2lqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBUUVBcVpGTCtqYmR4OHZVd0tPaFhiK2NQYnFVdFlYZDltV0E2V0VjaGJBbEVib2hBYmlZWmFhVjJ0RkY0WU0rCkVGQ0kyQnZzS0VWRVhZWDU3cWdXZXIrTjJKRDZCelNnTmY2Z2I4WnVaNjJwMXhCd2hSZXhPa2VOZjVieFRvNk8KOXZ3UlpwbDlraWgzZW9ndTMvZDl5ZzFlaEpGb0I0ZHptanZiM2F1bmFBNVc1a3ErV2VDTWhEdGxPbGRXL2RVdQpLVXJTK3U3ZHB5eHVFMzc3WGVtNVlWOUdyZGxyRVlERFdTTVNNaEExQStZT0N4ejNKUTMza0ROWVZUblN5Z2FCCktmdlRlT25TWEp1NXhZMWkrdnU1ZmFEekVudW50RlNReEhtNE9OSFZXYlRmNjFqZGVieGhLUEZqMnMyTEJtNHcKNUtLYWpxL1lwYmpGTFltRXMrSEZtWUdha1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==","server":"https://213.250.132.190:5443"},"name":"externalClusterTLSVerify"}],"contexts":[{"context":{"cluster":"internalCluster","user":"user"},"name":"internal"},{"context":{"cluster":"externalCluster","user":"user"},"name":"external"},{"context":{"cluster":"externalClusterTLSVerify","user":"user"},"name":"externalTLSVerify"}],"current-context":"external","kind":"Config","preferences":{},"users":[{"name":"user","user":{"client-certificate-data":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURsVENDQW4yZ0F3SUJBZ0lJRjY4Mmx3eXpOWll3RFFZSktvWklodmNOQVFFTEJRQXdLVEVaTUJjR0ExVUUKQ2hNUVEwTkZJRlJsWTJodWIyeHZaMmxsY3pFTU1Bb0dBMVVFQXhNRFEwTkZNQjRYRFRJMU1ESXhOakV6TlRZegpOVm9YRFRNd01ESXhOakV6TlRZek5Wb3dnYUV4ZERBUUJnTlZCQW9UQ1dOalpUcDFjMlZ5Y3pBbkJnTlZCQW9UCklEWXhPV1UwWXpCaE1UQXlOelJpTVRsaFpXSTNZelkzTlRsa01tTTFZemd5TURjR0ExVUVDaE13WWpBNFltSTMKTldOallUSmlORGxtWkRnNFlUVTNNek5oWXpFNFltUmxNbVF0WTJWeWRDMHhOek01TnpFME1UazFNU2t3SndZRApWUVFERXlCaU1EaGlZamMxWTJOaE1tSTBPV1prT0RoaE5UY3pNMkZqTVRoaVpHVXlaRENDQVNJd0RRWUpLb1pJCmh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTUh3QkJlbGdSNGxHS054Q1VSQjkzTmF3b0VGNWRBbEJoV0IKYjNTUnpEeTNEOGtUazR4R003QnVkd0d6bS9MeGFoS3djb2wvNml5eGNWY2FpSXFKWE9GOHpFTDJSZEtDNHpXbgorQmxFTktXdmQ1emVETHR3SnpSMGZNR2tMaVV0a09hNk1waVppd0ppV0haQ1h4V1cra0ZxVE5QKzA5b2NZeDU2Cjc1TFhsTHlLemlkK01BVHk3STFVcXNBcWpIMDMxNDdOSm9HbXFSOXNqQU9iQ3U5Sld0Mm9JczB1ZThCTi9aL0IKbXZSa0RiZWx1NEUyN2tKWjBqQmJnU25WWDkyamR2YW8zd1Y5bkV5dHBEQlloTFo4K3lyZGQzb0IvRTU4YU9pcwptOFZvNFhmNDFLWkpJY0RXR0RSMi9ST2IzRmVtYmFmMjk1RlR1OEVwM3l2L085eVdGYU1DQXdFQUFhTklNRVl3CkRnWURWUjBQQVFIL0JBUURBZ1dnTUJNR0ExVWRKUVFNTUFvR0NDc0dBUVVGQndNQ01COEdBMVVkSXdRWU1CYUEKRk1tejFGeXpVOGZuTldJRU53ejg5clBPWU9TS01BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQkRiZkRmZjVCUwp6Zjl5RSs4R2tHN1grR0E3bjJwVEp2VnowbjNpQlJtUDhkeVF2aWNmck55QktUSDhmNXhyMkhsYnR5NmNGZURSCkNUb2hFd21adGp4SUFZdEVVbkIxbzZiODNSUVA5ZDlHektUZHBIWi95RVoyb0MwOGtldnY3cnM3TEFMR0grUmcKZ09pZ1ZpOVlERGRWK2x6K1g0L3RBdDBrQnM5TE5pYkxZL0JOT3pJT0Q1V04yc1R1T1c2OExLWEdaVFIxOVN2aApkb2V3c3o0VjB0bGlvWllJTFQyWHIxcnB2aEl2T1h2bkw4Q3YzU1NYaUpnVk9BYnEwNURiK1dyVlBET09RZW0yClpuRWZ1dG9YTWxkcjlMZjg3anZ1QWhQU1QyblhKUE52b2ZIbitmOGlSTzNZdFEzR3Z2aTRFRTJuZ1A1eUFjeVcKamRpM1NjcnpPMXNtCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K","client-key-data":"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBd2ZBRUY2V0JIaVVZbzNFSlJFSDNjMXJDZ1FYbDBDVUdGWUZ2ZEpITVBMY1B5Uk9UCmpFWXpzRzUzQWJPYjh2RnFFckJ5aVgvcUxMRnhWeHFJaW9sYzRYek1RdlpGMG9Mak5hZjRHVVEwcGE5M25ONE0KdTNBbk5IUjh3YVF1SlMyUTVyb3ltSm1MQW1KWWRrSmZGWmI2UVdwTTAvN1QyaHhqSG5ydmt0ZVV2SXJPSjM0dwpCUExzalZTcXdDcU1mVGZYanMwbWdhYXBIMnlNQTVzSzcwbGEzYWdpelM1N3dFMzluOEdhOUdRTnQ2VzdnVGJ1ClFsblNNRnVCS2RWZjNhTjI5cWpmQlgyY1RLMmtNRmlFdG56N0t0MTNlZ0g4VG54bzZLeWJ4V2poZC9qVXBra2gKd05ZWU5IYjlFNXZjVjZadHAvYjNrVk83d1NuZksvODczSllWb3dJREFRQUJBb0lCQUZZNytFWGZkTk5Ib1hZRApiQ0JxeUxJRldGbHdtdWg3bmdId0JQUXJaRXBYQi9EY0FJNnVKSXUrQXJMQi80VCtMYkZUdmdvLzA0dTk5dXpKClFvOS9Wc3A0NklhWjVTQWV6Ukx0dGxiZHloOG1MNlNUNDh0d3FpNGI0ZUZrdEpRWmQ4WHdZMUVSYlF0SldaWjAKR3IySjNZczZ6aUN4dmRmTktaSEREa1lZRCszcGI1S1RPcXBWVHhuS3JYSi84azVBY3R6RXg2NUhDWGZNT1VNZApFRWZ3T1F6ZVg0R3JFaGNpWnB5SnVlSW15RzJ4QVlvc3MwNWRJcUxlNnpuajRFVit1bU8wbE1XN2JQLzltWEhnCjNzZlJoYnA0ZWtmMklVTncwdjJDNnNwRDlHYjVLbGQwT3FGRDNkUFM5YVFiSVRtRk9ZSCs4QmxUL00xV3VhdHMKSzdKWnZnRUNnWUVBeXlGYUVuV0pZbGwrS1krUnVuT1Q0VC8yWEN0Z1lyd1M0ZS8rV2RzV1BPTUNlampaRjd3SwpLSHBRa3kxeDcyNVFzSDVHMEVJWjlSTXRNKzVmYnFsaEJ0bFB0bVcwKzNKdzl6WnhXWUJDcFNmckVKZHphU1BOCm1icEVpSkxSekJTMmRDcVhhRnJ6bUJtN01NR3Y4SU5uUVdZVDhCSGxjWFFUYjBGdzhUYXEzS01DZ1lFQTlHb20KV243MVd5aWFuL1l4RUdRVk9YbW1ublRBY0l4VFd6WTYrNTVZbnEwN0oveHdJa3VUaGIyRnRNNFpmdXkzM3UxcAp0RlBCTFZRZ0dIK1Q1YThVc2pWT0RPZTJadTRlNW1HU0RoNTZ6YWxiWCtFc2taL1dUNk80ZG5UUUV1MjRzcFRICllORFdFK21qQlV4Um51dXNEV2NvT2hab0tvRjhHcnlmQWhiYWN3RUNnWUFIRjNMOWtmenA0aFgxZlgybzlNQUUKN1NhOHNRYjhhM1I5VHRPaWIzT25USVdabnNKMWdhc1pIcXdSZDFTeTl6YjU4bTZtZHFoUlZnb045aFIrMklyNgpvanVXTXBiTzhIL2hJWlZ6ZW5iWkxUdVhxTEh1eWNFenpMejN4NmhyWjQyM0lJV0lyeVF4K3pQOXo4VkVzRkc2CmhzWExhOVNHMFhhY083eWxyekxuNFFLQmdDczNhYml1b2l1UUxtY0NYUUtNNzhQTjRzdzUwSjBWOHRjNTY0djYKSDZsTzhCck40L1hzYnhWQ3daV0txNjlwbzhsaktVR2RYWmJxUFJLWDNFck1mbGhVWEl5am0vanZPYjk2bVJ5dAovd0RHWlVXNnh1cW8zSGdRZHRsYkpqOXlrU25pYks2TnZveWV6eGhzdWpIamNmU2N2TndvZ2hxaDhwTzNybFhzClBJd0JBb0dCQUpqWkhvbVA3bEsydkcxWWdxaTVEMlg0UTJneExLK1Y5NUZkRytDcFZXNjNpUFlhdTk0dmJRWHYKTGRrMjJHK3V4dEFNVGN2aDNsWW5wd200Mytqb1ZSZFBNcTVMZ2pWS2cwV0VGUG1kdGxsYmZib3NyRWFqYzVMegpmTlFZaTJNemVJRGxvMHFjbmFIYklmMHB5ajFrdmVSMmNWc28zaFlNWkFHcEQ0RmhJQW1KCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg=="}}]}
+
+EOT
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (kubectl apply pods)
+[Pipeline] sh
++ cp -f terraform/kubeconfig yamls/
++ cd terraform
++ terraform output dbip
++ eval dbip="192.168.0.241"
++ dbip=192.168.0.241
++ terraform output elbid
++ eval elbid="ed08d903-a8df-4ecf-8d62-a8db20109903"
++ elbid=ed08d903-a8df-4ecf-8d62-a8db20109903
++ cd ../yamls
++ sed -i s/MYSQL_DB_IP/192.168.0.241/g golang.yaml
++ sed -i s/ELB_ID_REPLACE/ed08d903-a8df-4ecf-8d62-a8db20109903/g golang.yaml
++ kubectl --kubeconfig ./kubeconfig apply -f secret.yaml
+secret/redis-secret created
++ kubectl --kubeconfig ./kubeconfig apply -f redis.yaml
+service/redis created
+statefulset.apps/redis created
+horizontalpodautoscaler.autoscaling/redis-hpa created
++ kubectl --kubeconfig ./kubeconfig apply -f golang.yaml
+service/url-shortener-api-service created
+deployment.apps/url-shortener-api created
+horizontalpodautoscaler.autoscaling/url-shortener-api-hpa created
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
