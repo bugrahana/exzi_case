@@ -26,12 +26,16 @@ pipeline {
             }
         }
 
-        stage('kubectl get pods') {
+        stage('kubectl apply pods') {
             steps {
                 sh '''
-                    cd terraform; kubectl --kubeconfig ./kubeconfig get pods -A
+                    cp -f terraform/kubeconfig yamls/
+                    cd yamls
+                    kubectl --kubeconfig ./kubeconfig apply -f secret.yaml
+                    kubectl --kubeconfig ./kubeconfig apply -f redis.yaml
+                    kubectl --kubeconfig ./kubeconfig apply -f golang.yaml
                 '''
             }
-        }
+        } /// TODO apply yamls, create eip and LB and then crate ingress with that lb to the service
     }
 }

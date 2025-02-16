@@ -45,5 +45,5 @@ variable "node_count" {
 
 variable "db_pass"{
   description="db pass"
-  default="Bugrahanexzi1234"
+  default="Bugrahanexzi1234."
 }

@@ -67,7 +67,7 @@ func (s *URLShortener) shortenURL(w http.ResponseWriter, r *http.Request) {
 		log.Println("Redis Error:", err)
 	}
 
-	res := ShortenResponse{ShortURL: fmt.Sprintf("http://localhost:8080/%s", shortID)}
+	res := ShortenResponse{ShortURL: fmt.Sprintf("http://%s/%s", r.Host, shortID)}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(res)
 }

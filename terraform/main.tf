@@ -53,7 +53,7 @@ resource "huaweicloud_networking_secgroup_rule" "rule3" {
   direction               = "ingress"
   action                  = "allow"
   ethertype               = "IPv4"
-  ports                   = "80,22,8080"
+  ports                   = "80,22,8080,3306"
   protocol                = "tcp"
   priority                = 1
   remote_ip_prefix        = "0.0.0.0/0"
@@ -70,6 +70,27 @@ resource "huaweicloud_vpc_eip" "myeip" { #create eip
     share_type  = "PER"
     charge_mode = "traffic"
   }
+}
+
+resource "huaweicloud_vpc_eip" "myeiplb" { #create eip
+  publicip {
+    type = "5_bgp"
+  }
+  bandwidth {
+    name        = "test"
+    size        = 8
+    share_type  = "PER"
+    charge_mode = "traffic"
+  }
+}
+
+resource "huaweicloud_lb_loadbalancer" "lb_1" {
+  vip_subnet_id = huaweicloud_vpc_subnet.mysubnet.id
+}
+
+resource "huaweicloud_vpc_eip_associate" "eip_1" {
+  public_ip = huaweicloud_vpc_eip.myeiplb.address
+  port_id   = huaweicloud_lb_loadbalancer.lb_1.vip_port_id
 }
 
 resource "huaweicloud_cce_cluster" "mycluster" { #create cce cluster
