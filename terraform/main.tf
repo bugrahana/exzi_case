@@ -92,8 +92,6 @@ resource "huaweicloud_elb_loadbalancer" "basic" {
   vpc_id            = huaweicloud_vpc.myvpc.id
   ipv4_subnet_id    = huaweicloud_vpc_subnet.mysubnet.id
 
-  l7_flavor_id = "L7"
-
   availability_zone = [data.huaweicloud_availability_zones.myaz.names[0]]
   ipv4_eip_id = huaweicloud_vpc_eip.myeiplb.id
 }
